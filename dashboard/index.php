@@ -24,9 +24,15 @@ $tables = [
     'users'                      => 'Users',
 ];
 
+$allowedTables = array_keys($tables);
 foreach ($tables as $table => $label) {
+    if (!in_array($table, $allowedTables, true)) {
+        $counts[$table] = 0;
+        continue;
+    }
     try {
-        $stmt = $pdo->query("SELECT COUNT(*) as total FROM `{$table}`");
+        $stmt = $pdo->prepare("SELECT COUNT(*) as total FROM `{$table}`");
+        $stmt->execute();
         $counts[$table] = $stmt->fetch()['total'];
     } catch (PDOException $e) {
         $counts[$table] = 0;
@@ -115,7 +121,8 @@ require_once __DIR__ . '/../views/sidebar.php';
 // Fetch chart data
 $statusData = [];
 try {
-    $stmt = $pdo->query("SELECT status, COUNT(*) as total FROM assets GROUP BY status");
+    $stmt = $pdo->prepare("SELECT status, COUNT(*) as total FROM assets GROUP BY status");
+    $stmt->execute();
     while ($row = $stmt->fetch()) {
         $statusData[$row['status']] = (int) $row['total'];
     }
@@ -125,7 +132,7 @@ try {
 
 $categoryData = [];
 try {
-    $stmt = $pdo->query(
+    $stmt = $pdo->prepare(
         "SELECT c.category_name, COUNT(a.id) as total
          FROM asset_categories c
          LEFT JOIN assets a ON a.category_id = c.id
@@ -133,6 +140,7 @@ try {
          ORDER BY total DESC
          LIMIT 10"
     );
+    $stmt->execute();
     while ($row = $stmt->fetch()) {
         $categoryData[$row['category_name']] = (int) $row['total'];
     }

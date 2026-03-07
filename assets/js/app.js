@@ -43,7 +43,9 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             beforeSend: function (xhr, settings) {
                 if (settings.type && settings.type.toUpperCase() === 'POST' && settings.data) {
-                    if (typeof settings.data === 'string' && settings.data.indexOf('csrf_token') === -1) {
+                    if (settings.data instanceof FormData) {
+                        settings.data.append('csrf_token', csrfToken);
+                    } else if (typeof settings.data === 'string' && settings.data.indexOf('csrf_token') === -1) {
                         settings.data += '&csrf_token=' + encodeURIComponent(csrfToken);
                     }
                 }

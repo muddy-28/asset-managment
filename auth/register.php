@@ -32,8 +32,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $error = 'All fields are required.';
         } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $error = 'Please enter a valid email address.';
-        } elseif (strlen($password) < 6) {
-            $error = 'Password must be at least 6 characters.';
+        } elseif (strlen($password) < 8) {
+            $error = 'Password must be at least 8 characters.';
         } elseif ($password !== $confirmPassword) {
             $error = 'Passwords do not match.';
         } elseif (!in_array($role, ['admin', 'manager', 'technician'], true)) {
@@ -117,13 +117,13 @@ require_once __DIR__ . '/../views/sidebar.php';
                                 <div class="col-md-6 mb-3">
                                     <label for="password" class="form-label">Password <span class="text-danger">*</span></label>
                                     <input type="password" class="form-control" id="password" name="password"
-                                           required minlength="6">
-                                    <small class="text-muted">Minimum 6 characters</small>
+                                           required minlength="8">
+                                    <small class="text-muted">Minimum 8 characters</small>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="confirm_password" class="form-label">Confirm Password <span class="text-danger">*</span></label>
                                     <input type="password" class="form-control" id="confirm_password" name="confirm_password"
-                                           required minlength="6">
+                                           required minlength="8">
                                 </div>
                             </div>
 

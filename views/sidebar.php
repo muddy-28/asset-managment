@@ -3,7 +3,7 @@
  * Sidebar Navigation
  */
 
-$currentScript = $_SERVER['PHP_SELF'];
+$currentScript = $_SERVER['SCRIPT_NAME'];
 
 /**
  * Helper to check if a nav link should be marked active.

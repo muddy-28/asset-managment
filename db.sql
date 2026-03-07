@@ -321,9 +321,9 @@ CREATE INDEX idx_maintenance_due ON asset_maintenance_schedule(next_due_date);
 
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(150),
-    email VARCHAR(150) UNIQUE,
-    password VARCHAR(255),
+    name VARCHAR(150) NOT NULL,
+    email VARCHAR(150) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
     role ENUM('admin','manager','technician') DEFAULT 'technician',
     status ENUM('active','inactive') DEFAULT 'active',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
