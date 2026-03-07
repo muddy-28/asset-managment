@@ -4,6 +4,8 @@ require_once __DIR__ . '/../../middleware/auth_check.php';
 checkRole(['admin']);
 require_once __DIR__ . '/../../config/database.php';
 
+$pdo = getDBConnection();
+
 $pageTitle = 'User Management';
 
 $stmt = $pdo->query("SELECT id, name, email, role, status, created_at FROM users ORDER BY created_at DESC");

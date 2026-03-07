@@ -4,6 +4,8 @@ require_once __DIR__ . '/../../middleware/auth_check.php';
 checkRole(['admin']);
 require_once __DIR__ . '/../../config/database.php';
 
+$pdo = getDBConnection();
+
 $pageTitle = 'Add User';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
