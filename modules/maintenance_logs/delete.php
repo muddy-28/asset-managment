@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    $id = (int)$_POST['id'];
+    $id = (int)($_GET['id'] ?? $_POST['id'] ?? 0);
 
     $stmt = $pdo->prepare("DELETE FROM asset_maintenance_logs WHERE id = ?");
     $stmt->execute([$id]);

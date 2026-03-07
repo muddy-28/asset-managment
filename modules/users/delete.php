@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    $id = (int)$_POST['id'];
+    $id = (int)($_GET['id'] ?? $_POST['id'] ?? 0);
 
     if ($id === (int)$_SESSION['user_id']) {
         $_SESSION['error_message'] = 'You cannot delete your own account.';
