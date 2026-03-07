@@ -21,8 +21,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $role = $_POST['role'];
     $status = $_POST['status'];
 
-    if (strlen($password) < 6) {
-        $_SESSION['error_message'] = 'Password must be at least 6 characters.';
+    if (strlen($password) < 8) {
+        $_SESSION['error_message'] = 'Password must be at least 8 characters.';
         header('Location: create.php');
         exit;
     }
@@ -78,7 +78,7 @@ require_once __DIR__ . '/../../views/sidebar.php';
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="password" class="form-label">Password <span class="text-danger">*</span></label>
-                            <input type="password" name="password" id="password" class="form-control" required minlength="6">
+                            <input type="password" name="password" id="password" class="form-control" required minlength="8">
                         </div>
                         <div class="col-md-3 mb-3">
                             <label for="role" class="form-label">Role <span class="text-danger">*</span></label>

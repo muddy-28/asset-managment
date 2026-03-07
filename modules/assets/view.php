@@ -139,7 +139,7 @@ require_once __DIR__ . '/../../views/sidebar.php';
                             </tr>
                             <tr>
                                 <th class="text-muted">Purchase Date</th>
-                                <td><?php echo $asset['purchase_date'] ? htmlspecialchars(date('M d, Y', strtotime($asset['purchase_date'])), ENT_QUOTES, 'UTF-8') : 'N/A'; ?></td>
+                                <td><?php $ts = $asset['purchase_date'] ? strtotime($asset['purchase_date']) : false; echo $ts !== false ? htmlspecialchars(date('M d, Y', $ts), ENT_QUOTES, 'UTF-8') : 'N/A'; ?></td>
                             </tr>
                             <tr>
                                 <th class="text-muted">Purchase Cost</th>
@@ -147,7 +147,7 @@ require_once __DIR__ . '/../../views/sidebar.php';
                             </tr>
                             <tr>
                                 <th class="text-muted">Warranty Expiry</th>
-                                <td><?php echo $asset['warranty_expiry'] ? htmlspecialchars(date('M d, Y', strtotime($asset['warranty_expiry'])), ENT_QUOTES, 'UTF-8') : 'N/A'; ?></td>
+                                <td><?php $ts = $asset['warranty_expiry'] ? strtotime($asset['warranty_expiry']) : false; echo $ts !== false ? htmlspecialchars(date('M d, Y', $ts), ENT_QUOTES, 'UTF-8') : 'N/A'; ?></td>
                             </tr>
                             <tr>
                                 <th class="text-muted">Condition</th>

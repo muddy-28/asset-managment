@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             // 1. Insert into asset_transfer_history
             $stmt = $pdo->prepare("INSERT INTO asset_transfer_history (asset_id, from_department, to_department, from_location, to_location, transfer_date, transferred_by, remarks) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt->execute([$asset_id, $from_department, $to_department, $from_location, $to_location, $transfer_date ?: null, $transferred_by, $remarks]);
+            $stmt->execute([$asset_id, $from_department, $to_department, $from_location, $to_location, $transfer_date !== '' ? $transfer_date : null, $transferred_by, $remarks]);
 
             // 2. Mark existing active assignment for this asset as 'moved'
             $stmt = $pdo->prepare("UPDATE asset_assignments SET status = 'moved' WHERE asset_id = ? AND status = 'active'");
