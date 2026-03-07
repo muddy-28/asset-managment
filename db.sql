@@ -314,3 +314,21 @@ CREATE INDEX idx_asset_tag ON assets(asset_tag);
 CREATE INDEX idx_asset_category ON assets(category_id);
 CREATE INDEX idx_asset_department ON asset_assignments(department_id);
 CREATE INDEX idx_maintenance_due ON asset_maintenance_schedule(next_due_date);
+
+-- =====================================================
+-- USERS
+-- =====================================================
+
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(150),
+    email VARCHAR(150) UNIQUE,
+    password VARCHAR(255),
+    role ENUM('admin','manager','technician') DEFAULT 'technician',
+    status ENUM('active','inactive') DEFAULT 'active',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Insert default admin user (password: admin123)
+INSERT INTO users (name, email, password, role, status) VALUES
+('Administrator', 'admin@hospital.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin', 'active');
