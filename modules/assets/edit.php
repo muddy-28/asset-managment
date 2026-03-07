@@ -5,6 +5,8 @@ require_once __DIR__ . '/../../config/database.php';
 
 $pageTitle = 'Edit Asset';
 
+$pdo = getDBConnection();
+
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

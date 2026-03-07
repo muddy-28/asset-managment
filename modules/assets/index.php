@@ -5,6 +5,8 @@ require_once __DIR__ . '/../../config/database.php';
 
 $pageTitle = 'Asset Management';
 
+$pdo = getDBConnection();
+
 $stmt = $pdo->query("
     SELECT a.*, 
            ac.category_name, 

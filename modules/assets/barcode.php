@@ -5,6 +5,8 @@ require_once __DIR__ . '/../../config/database.php';
 
 $pageTitle = 'Print Barcode';
 
+$pdo = getDBConnection();
+
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
 $stmt = $pdo->prepare("SELECT * FROM assets WHERE id = :id");

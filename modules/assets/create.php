@@ -5,6 +5,8 @@ require_once __DIR__ . '/../../config/database.php';
 
 $pageTitle = 'Add New Asset';
 
+$pdo = getDBConnection();
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
         $_SESSION['error_message'] = 'Invalid CSRF token.';
