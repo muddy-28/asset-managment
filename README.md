@@ -2,6 +2,23 @@
 
 A complete production-ready PHP web application for managing hospital assets, departments, maintenance schedules, and more.
 
+## 📖 Documentation
+
+Full wiki documentation is available in the [`docs/`](docs/) directory:
+
+| Guide | Description |
+|-------|-------------|
+| [Overview](docs/index.md) | Feature list, tech stack, quick start |
+| [Installation Guide](docs/installation.md) | XAMPP, Linux, and production setup |
+| [Configuration Guide](docs/configuration.md) | Database credentials and security settings |
+| [User Guide](docs/user-guide.md) | Dashboard, navigation, daily usage |
+| [Assets Module](docs/modules/assets.md) | Asset lifecycle, assignments, transfers, barcodes |
+| [Departments & Locations](docs/modules/departments-and-locations.md) | Floors, departments, rooms |
+| [Maintenance Guide](docs/modules/maintenance.md) | Schedules, logs, calibration, reminders |
+| [Users & Roles](docs/modules/users-and-roles.md) | User management and permissions |
+| [Database Schema](docs/database-schema.md) | All 15 tables fully documented |
+| [Troubleshooting](docs/troubleshooting.md) | Common issues and solutions |
+
 ## Tech Stack
 
 - **Backend:** PHP 8+ (Plain PHP, no framework)
