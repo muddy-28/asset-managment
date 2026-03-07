@@ -24,15 +24,22 @@ $tables = [
     'users'                      => 'Users',
 ];
 
-$allowedTables = array_keys($tables);
+// Each count uses a separate hardcoded query to avoid dynamic table names in SQL
+$countQueries = [
+    'assets'                     => 'SELECT COUNT(*) as total FROM assets',
+    'asset_categories'           => 'SELECT COUNT(*) as total FROM asset_categories',
+    'vendors'                    => 'SELECT COUNT(*) as total FROM vendors',
+    'departments'                => 'SELECT COUNT(*) as total FROM departments',
+    'floors'                     => 'SELECT COUNT(*) as total FROM floors',
+    'locations'                  => 'SELECT COUNT(*) as total FROM locations',
+    'asset_assignments'          => 'SELECT COUNT(*) as total FROM asset_assignments',
+    'asset_maintenance_schedule' => 'SELECT COUNT(*) as total FROM asset_maintenance_schedule',
+    'users'                      => 'SELECT COUNT(*) as total FROM users',
+];
+
 foreach ($tables as $table => $label) {
-    if (!in_array($table, $allowedTables, true)) {
-        $counts[$table] = 0;
-        continue;
-    }
     try {
-        $stmt = $pdo->prepare("SELECT COUNT(*) as total FROM `{$table}`");
-        $stmt->execute();
+        $stmt = $pdo->query($countQueries[$table]);
         $counts[$table] = $stmt->fetch()['total'];
     } catch (PDOException $e) {
         $counts[$table] = 0;
