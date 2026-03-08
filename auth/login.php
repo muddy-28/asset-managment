@@ -7,9 +7,11 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+require_once __DIR__ . '/../config/app.php';
+
 // Redirect if already logged in
 if (isset($_SESSION['user_id'])) {
-    header('Location: /dashboard/index.php');
+    header('Location: ' . BASE_URL . '/dashboard/index.php');
     exit;
 }
 
@@ -54,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     // Regenerate CSRF token after login
                     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 
-                    header('Location: /dashboard/index.php');
+                    header('Location: ' . BASE_URL . '/dashboard/index.php');
                     exit;
                 }
             } else {

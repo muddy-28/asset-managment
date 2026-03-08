@@ -84,7 +84,7 @@ require_once __DIR__ . '/../views/sidebar.php';
                 <h2><i class="fas fa-user-plus me-2"></i>Register New User</h2>
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="/dashboard/index.php">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="<?php echo BASE_URL; ?>/dashboard/index.php">Dashboard</a></li>
                         <li class="breadcrumb-item active">Register User</li>
                     </ol>
                 </nav>
@@ -137,7 +137,7 @@ require_once __DIR__ . '/../views/sidebar.php';
                             </div>
 
                             <div class="d-flex justify-content-end gap-2">
-                                <a href="/dashboard/index.php" class="btn btn-secondary">
+                                <a href="<?php echo BASE_URL; ?>/dashboard/index.php" class="btn btn-secondary">
                                     <i class="fas fa-times me-1"></i> Cancel
                                 </a>
                                 <button type="submit" class="btn btn-primary">
