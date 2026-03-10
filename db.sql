@@ -15,6 +15,7 @@ CREATE TABLE floors (
     floor_name VARCHAR(100) NOT NULL,
     floor_code VARCHAR(20),
     building VARCHAR(150),
+    is_deleted TINYINT(1) DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -29,6 +30,7 @@ CREATE TABLE departments (
     floor_id INT,
     description TEXT,
     status ENUM('active','inactive') DEFAULT 'active',
+    is_deleted TINYINT(1) DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (floor_id) REFERENCES floors(id)
 );
@@ -44,6 +46,7 @@ CREATE TABLE locations (
     room_number VARCHAR(50),
     location_name VARCHAR(150),
     description TEXT,
+    is_deleted TINYINT(1) DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (floor_id) REFERENCES floors(id),
     FOREIGN KEY (department_id) REFERENCES departments(id)
@@ -56,7 +59,8 @@ CREATE TABLE locations (
 CREATE TABLE asset_categories (
     id INT AUTO_INCREMENT PRIMARY KEY,
     category_name VARCHAR(150) NOT NULL,
-    description TEXT
+    description TEXT,
+    is_deleted TINYINT(1) DEFAULT 0
 );
 
 -- =====================================================
@@ -68,6 +72,7 @@ CREATE TABLE asset_subcategories (
     category_id INT,
     subcategory_name VARCHAR(150),
     description TEXT,
+    is_deleted TINYINT(1) DEFAULT 0,
     FOREIGN KEY (category_id) REFERENCES asset_categories(id)
 );
 
@@ -82,6 +87,7 @@ CREATE TABLE vendors (
     phone VARCHAR(50),
     email VARCHAR(150),
     address TEXT,
+    is_deleted TINYINT(1) DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -110,6 +116,8 @@ CREATE TABLE assets (
     asset_condition ENUM('new','good','fair','poor','damaged'),
     status ENUM('active','maintenance','disposed','lost') DEFAULT 'active',
 
+    is_deleted TINYINT(1) DEFAULT 0,
+
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
     FOREIGN KEY (category_id) REFERENCES asset_categories(id),
@@ -132,6 +140,8 @@ CREATE TABLE asset_assignments (
     assigned_by VARCHAR(150),
 
     status ENUM('active','moved') DEFAULT 'active',
+
+    is_deleted TINYINT(1) DEFAULT 0,
 
     FOREIGN KEY (asset_id) REFERENCES assets(id),
     FOREIGN KEY (floor_id) REFERENCES floors(id),
@@ -156,6 +166,8 @@ CREATE TABLE asset_transfer_history (
     transfer_date DATE,
     transferred_by VARCHAR(150),
     remarks TEXT,
+
+    is_deleted TINYINT(1) DEFAULT 0,
 
     FOREIGN KEY (asset_id) REFERENCES assets(id)
 );
@@ -188,6 +200,8 @@ CREATE TABLE asset_maintenance_schedule (
     responsible_person VARCHAR(150),
 
     status ENUM('active','inactive') DEFAULT 'active',
+
+    is_deleted TINYINT(1) DEFAULT 0,
 
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
@@ -232,6 +246,8 @@ CREATE TABLE asset_maintenance_logs (
 
     remarks TEXT,
 
+    is_deleted TINYINT(1) DEFAULT 0,
+
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
     FOREIGN KEY (asset_id) REFERENCES assets(id),
@@ -255,6 +271,8 @@ CREATE TABLE asset_calibration (
     vendor_id INT,
 
     remarks TEXT,
+
+    is_deleted TINYINT(1) DEFAULT 0,
 
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
@@ -301,6 +319,8 @@ CREATE TABLE asset_disposal (
 
     approved_by VARCHAR(150),
 
+    is_deleted TINYINT(1) DEFAULT 0,
+
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
     FOREIGN KEY (asset_id) REFERENCES assets(id)
@@ -326,6 +346,7 @@ CREATE TABLE users (
     password VARCHAR(255) NOT NULL,
     role ENUM('admin','manager','technician') DEFAULT 'technician',
     status ENUM('active','inactive') DEFAULT 'active',
+    is_deleted TINYINT(1) DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

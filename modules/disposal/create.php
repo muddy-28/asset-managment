@@ -7,7 +7,7 @@ $pdo = getDBConnection();
 
 $pageTitle = 'Add Asset Disposal';
 
-$assets = $pdo->query("SELECT id, asset_name FROM assets WHERE status = 'active' AND deleted_at IS NULL ORDER BY asset_name")->fetchAll(PDO::FETCH_ASSOC);
+$assets = $pdo->query("SELECT id, asset_name FROM assets WHERE status = 'active' AND is_deleted = 0 ORDER BY asset_name")->fetchAll(PDO::FETCH_ASSOC);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {

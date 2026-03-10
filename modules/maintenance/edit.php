@@ -14,7 +14,7 @@ if (!isset($_GET['id'])) {
 }
 
 $id = (int)$_GET['id'];
-$stmt = $pdo->prepare("SELECT * FROM asset_maintenance_schedule WHERE id = ? AND deleted_at IS NULL");
+$stmt = $pdo->prepare("SELECT * FROM asset_maintenance_schedule WHERE id = ? AND is_deleted = 0");
 $stmt->execute([$id]);
 $schedule = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -24,8 +24,8 @@ if (!$schedule) {
     exit;
 }
 
-$assets = $pdo->query("SELECT id, asset_name FROM assets WHERE deleted_at IS NULL ORDER BY asset_name")->fetchAll(PDO::FETCH_ASSOC);
-$departments = $pdo->query("SELECT id, department_name FROM departments WHERE deleted_at IS NULL ORDER BY department_name")->fetchAll(PDO::FETCH_ASSOC);
+$assets = $pdo->query("SELECT id, asset_name FROM assets WHERE is_deleted = 0 ORDER BY asset_name")->fetchAll(PDO::FETCH_ASSOC);
+$departments = $pdo->query("SELECT id, department_name FROM departments WHERE is_deleted = 0 ORDER BY department_name")->fetchAll(PDO::FETCH_ASSOC);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {

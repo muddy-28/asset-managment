@@ -11,7 +11,7 @@ $stmt = $pdo->query("
     SELECT s.*, a.asset_name
     FROM asset_maintenance_schedule s
     LEFT JOIN assets a ON s.asset_id = a.id
-    WHERE s.deleted_at IS NULL
+    WHERE s.is_deleted = 0
     ORDER BY s.created_at DESC
 ");
 $schedules = $stmt->fetchAll(PDO::FETCH_ASSOC);

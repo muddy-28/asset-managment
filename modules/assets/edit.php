@@ -87,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-$stmt = $pdo->prepare("SELECT * FROM assets WHERE id = :id AND deleted_at IS NULL");
+$stmt = $pdo->prepare("SELECT * FROM assets WHERE id = :id AND is_deleted = 0");
 $stmt->execute([':id' => $id]);
 $asset = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -97,9 +97,9 @@ if (!$asset) {
     exit;
 }
 
-$categories = $pdo->query("SELECT id, category_name FROM asset_categories WHERE deleted_at IS NULL ORDER BY category_name")->fetchAll(PDO::FETCH_ASSOC);
-$subcategories = $pdo->query("SELECT id, subcategory_name, category_id FROM asset_subcategories WHERE deleted_at IS NULL ORDER BY subcategory_name")->fetchAll(PDO::FETCH_ASSOC);
-$vendors = $pdo->query("SELECT id, vendor_name FROM vendors WHERE deleted_at IS NULL ORDER BY vendor_name")->fetchAll(PDO::FETCH_ASSOC);
+$categories = $pdo->query("SELECT id, category_name FROM asset_categories WHERE is_deleted = 0 ORDER BY category_name")->fetchAll(PDO::FETCH_ASSOC);
+$subcategories = $pdo->query("SELECT id, subcategory_name, category_id FROM asset_subcategories WHERE is_deleted = 0 ORDER BY subcategory_name")->fetchAll(PDO::FETCH_ASSOC);
+$vendors = $pdo->query("SELECT id, vendor_name FROM vendors WHERE is_deleted = 0 ORDER BY vendor_name")->fetchAll(PDO::FETCH_ASSOC);
 
 require_once __DIR__ . '/../../views/header.php';
 require_once __DIR__ . '/../../views/sidebar.php';

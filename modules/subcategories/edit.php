@@ -7,7 +7,7 @@ $pageTitle = 'Edit Subcategory';
 $pdo = getDBConnection();
 
 $id = (int)($_GET['id'] ?? 0);
-$stmt = $pdo->prepare("SELECT * FROM asset_subcategories WHERE id = ? AND deleted_at IS NULL");
+$stmt = $pdo->prepare("SELECT * FROM asset_subcategories WHERE id = ? AND is_deleted = 0");
 $stmt->execute([$id]);
 $subcategory = $stmt->fetch();
 if (!$subcategory) {
@@ -16,7 +16,7 @@ if (!$subcategory) {
     exit;
 }
 
-$stmt = $pdo->prepare("SELECT id, category_name FROM asset_categories WHERE deleted_at IS NULL ORDER BY category_name ASC");
+$stmt = $pdo->prepare("SELECT id, category_name FROM asset_categories WHERE is_deleted = 0 ORDER BY category_name ASC");
 $stmt->execute();
 $categories = $stmt->fetchAll();
 
