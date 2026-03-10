@@ -12,7 +12,7 @@
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <!-- Custom JS -->
-    <script src="/assets/js/app.js"></script>
+    <script src="<?php echo BASE_URL; ?>/assets/js/app.js"></script>
 
     <?php if (!empty($_SESSION['error_message'])): ?>
     <script>

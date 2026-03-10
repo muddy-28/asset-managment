@@ -7,6 +7,8 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+require_once __DIR__ . '/../config/app.php';
+
 if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
@@ -31,7 +33,7 @@ $pageTitle = $pageTitle ?? 'Hospital Asset Management';
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <!-- Custom CSS -->
-    <link href="/assets/css/style.css" rel="stylesheet">
+    <link href="<?php echo BASE_URL; ?>/assets/css/style.css" rel="stylesheet">
 </head>
 <body>
 
@@ -41,7 +43,7 @@ $pageTitle = $pageTitle ?? 'Hospital Asset Management';
         <button class="btn btn-link text-white me-2 sidebar-toggle" id="sidebarToggle" type="button">
             <i class="fas fa-bars fa-lg"></i>
         </button>
-        <a class="navbar-brand d-flex align-items-center" href="/dashboard/index.php">
+        <a class="navbar-brand d-flex align-items-center" href="<?php echo BASE_URL; ?>/dashboard/index.php">
             <i class="fas fa-hospital me-2"></i>
             <span class="d-none d-sm-inline">Hospital Asset Management</span>
             <span class="d-inline d-sm-none">Hospital AMS</span>
@@ -63,7 +65,7 @@ $pageTitle = $pageTitle ?? 'Hospital Asset Management';
                         </span>
                     </li>
                     <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item text-danger" href="/auth/logout.php"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+                    <li><a class="dropdown-item text-danger" href="<?php echo BASE_URL; ?>/auth/logout.php"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
                 </ul>
             </li>
         </ul>

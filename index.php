@@ -2,5 +2,6 @@
 /**
  * Root index - Redirect to dashboard
  */
-header('Location: /dashboard/index.php');
+require_once __DIR__ . '/config/app.php';
+header('Location: ' . BASE_URL . '/dashboard/index.php');
 exit;
