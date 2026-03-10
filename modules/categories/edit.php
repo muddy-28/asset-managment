@@ -7,7 +7,7 @@ $pageTitle = 'Edit Category';
 $pdo = getDBConnection();
 
 $id = (int)($_GET['id'] ?? 0);
-$stmt = $pdo->prepare("SELECT * FROM asset_categories WHERE id = ?");
+$stmt = $pdo->prepare("SELECT * FROM asset_categories WHERE id = ? AND deleted_at IS NULL");
 $stmt->execute([$id]);
 $category = $stmt->fetch();
 if (!$category) {

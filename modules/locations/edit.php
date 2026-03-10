@@ -13,7 +13,7 @@ if ($id <= 0) {
     exit;
 }
 
-$stmt = $pdo->prepare("SELECT * FROM locations WHERE id = ?");
+$stmt = $pdo->prepare("SELECT * FROM locations WHERE id = ? AND deleted_at IS NULL");
 $stmt->execute([$id]);
 $location = $stmt->fetch();
 
@@ -23,11 +23,11 @@ if (!$location) {
     exit;
 }
 
-$stmt = $pdo->prepare("SELECT id, floor_name FROM floors ORDER BY floor_name");
+$stmt = $pdo->prepare("SELECT id, floor_name FROM floors WHERE deleted_at IS NULL ORDER BY floor_name");
 $stmt->execute();
 $floors = $stmt->fetchAll();
 
-$stmt = $pdo->prepare("SELECT id, department_name FROM departments ORDER BY department_name");
+$stmt = $pdo->prepare("SELECT id, department_name FROM departments WHERE deleted_at IS NULL ORDER BY department_name");
 $stmt->execute();
 $departments = $stmt->fetchAll();
 

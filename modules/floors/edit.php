@@ -7,7 +7,7 @@ $pageTitle = 'Edit Floor';
 $pdo = getDBConnection();
 
 $id = (int)($_GET['id'] ?? 0);
-$stmt = $pdo->prepare("SELECT * FROM floors WHERE id = ?");
+$stmt = $pdo->prepare("SELECT * FROM floors WHERE id = ? AND deleted_at IS NULL");
 $stmt->execute([$id]);
 $floor = $stmt->fetch();
 if (!$floor) {

@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $id = (int)($_GET['id'] ?? $_POST['id'] ?? 0);
 
-    $stmt = $pdo->prepare("DELETE FROM asset_disposal WHERE id = ?");
+    $stmt = $pdo->prepare("UPDATE asset_disposal SET deleted_at = NOW() WHERE id = ? AND deleted_at IS NULL");
     $stmt->execute([$id]);
 
     $_SESSION['success_message'] = 'Disposal record deleted successfully.';

@@ -15,7 +15,7 @@ if (!isset($_GET['id'])) {
 }
 
 $id = (int)$_GET['id'];
-$stmt = $pdo->prepare("SELECT id, name, email, role, status FROM users WHERE id = ?");
+$stmt = $pdo->prepare("SELECT id, name, email, role, status FROM users WHERE id = ? AND deleted_at IS NULL");
 $stmt->execute([$id]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $role = $_POST['role'];
     $status = $_POST['status'];
 
-    $checkStmt = $pdo->prepare("SELECT id FROM users WHERE email = ? AND id != ?");
+    $checkStmt = $pdo->prepare("SELECT id FROM users WHERE email = ? AND id != ? AND deleted_at IS NULL");
     $checkStmt->execute([$email, $id]);
     if ($checkStmt->fetch()) {
         $_SESSION['error_message'] = 'Email already exists.';

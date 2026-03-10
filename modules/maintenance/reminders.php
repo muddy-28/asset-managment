@@ -13,6 +13,7 @@ $stmt = $pdo->query("
     LEFT JOIN assets a ON s.asset_id = a.id
     WHERE s.next_due_date <= DATE_ADD(CURDATE(), INTERVAL 7 DAY)
       AND s.status = 'active'
+      AND s.deleted_at IS NULL
     ORDER BY s.next_due_date ASC
 ");
 $reminders = $stmt->fetchAll(PDO::FETCH_ASSOC);

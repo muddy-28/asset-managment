@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    $stmt = $pdo->prepare("DELETE FROM users WHERE id = ?");
+    $stmt = $pdo->prepare("UPDATE users SET deleted_at = NOW() WHERE id = ? AND deleted_at IS NULL");
     $stmt->execute([$id]);
 
     $_SESSION['success_message'] = 'User deleted successfully.';

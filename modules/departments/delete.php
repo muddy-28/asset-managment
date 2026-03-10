@@ -24,7 +24,7 @@ if ($id <= 0) {
 $pdo = getDBConnection();
 
 try {
-    $stmt = $pdo->prepare("DELETE FROM departments WHERE id = ?");
+    $stmt = $pdo->prepare("UPDATE departments SET deleted_at = NOW() WHERE id = ? AND deleted_at IS NULL");
     $stmt->execute([$id]);
     $_SESSION['success_message'] = 'Department deleted successfully.';
 } catch (PDOException $e) {

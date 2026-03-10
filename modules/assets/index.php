@@ -16,6 +16,7 @@ $stmt = $pdo->query("
     LEFT JOIN asset_categories ac ON a.category_id = ac.id
     LEFT JOIN asset_subcategories asc2 ON a.subcategory_id = asc2.id
     LEFT JOIN vendors v ON a.vendor_id = v.id
+    WHERE a.deleted_at IS NULL
     ORDER BY a.id DESC
 ");
 $assets = $stmt->fetchAll(PDO::FETCH_ASSOC);
