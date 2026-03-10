@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $pdo = getDBConnection();
 
             // Check if email already exists
-            $stmt = $pdo->prepare('SELECT id FROM users WHERE email = :email AND deleted_at IS NULL LIMIT 1');
+            $stmt = $pdo->prepare('SELECT id FROM users WHERE email = :email AND is_deleted = 0 LIMIT 1');
             $stmt->execute([':email' => $email]);
 
             if ($stmt->fetch()) {

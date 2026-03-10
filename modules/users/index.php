@@ -8,7 +8,7 @@ $pdo = getDBConnection();
 
 $pageTitle = 'User Management';
 
-$stmt = $pdo->query("SELECT id, name, email, role, status, created_at FROM users WHERE deleted_at IS NULL ORDER BY created_at DESC");
+$stmt = $pdo->query("SELECT id, name, email, role, status, created_at FROM users WHERE is_deleted = 0 ORDER BY created_at DESC");
 $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 require_once __DIR__ . '/../../views/header.php';

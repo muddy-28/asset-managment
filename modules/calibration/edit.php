@@ -14,7 +14,7 @@ if (!isset($_GET['id'])) {
 }
 
 $id = (int)$_GET['id'];
-$stmt = $pdo->prepare("SELECT * FROM asset_calibration WHERE id = ? AND deleted_at IS NULL");
+$stmt = $pdo->prepare("SELECT * FROM asset_calibration WHERE id = ? AND is_deleted = 0");
 $stmt->execute([$id]);
 $calibration = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -24,8 +24,8 @@ if (!$calibration) {
     exit;
 }
 
-$assets = $pdo->query("SELECT id, asset_name FROM assets WHERE deleted_at IS NULL ORDER BY asset_name")->fetchAll(PDO::FETCH_ASSOC);
-$vendors = $pdo->query("SELECT id, vendor_name FROM vendors WHERE deleted_at IS NULL ORDER BY vendor_name")->fetchAll(PDO::FETCH_ASSOC);
+$assets = $pdo->query("SELECT id, asset_name FROM assets WHERE is_deleted = 0 ORDER BY asset_name")->fetchAll(PDO::FETCH_ASSOC);
+$vendors = $pdo->query("SELECT id, vendor_name FROM vendors WHERE is_deleted = 0 ORDER BY vendor_name")->fetchAll(PDO::FETCH_ASSOC);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {

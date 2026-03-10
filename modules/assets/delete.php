@@ -26,7 +26,7 @@ if ($id <= 0) {
 }
 
 try {
-    $stmt = $pdo->prepare("UPDATE assets SET deleted_at = NOW() WHERE id = :id AND deleted_at IS NULL");
+    $stmt = $pdo->prepare("UPDATE assets SET is_deleted = 1 WHERE id = :id AND is_deleted = 0");
     $stmt->execute([':id' => $id]);
 
     if ($stmt->rowCount() > 0) {

@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $id = (int)($_GET['id'] ?? $_POST['id'] ?? 0);
 
-    $stmt = $pdo->prepare("UPDATE asset_maintenance_logs SET deleted_at = NOW() WHERE id = ? AND deleted_at IS NULL");
+    $stmt = $pdo->prepare("UPDATE asset_maintenance_logs SET is_deleted = 1 WHERE id = ? AND is_deleted = 0");
     $stmt->execute([$id]);
 
     $_SESSION['success_message'] = 'Maintenance log deleted successfully.';

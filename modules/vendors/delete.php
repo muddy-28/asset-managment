@@ -23,7 +23,7 @@ if ($id <= 0) {
 
 $pdo = getDBConnection();
 try {
-    $stmt = $pdo->prepare("UPDATE vendors SET deleted_at = NOW() WHERE id = ? AND deleted_at IS NULL");
+    $stmt = $pdo->prepare("UPDATE vendors SET is_deleted = 1 WHERE id = ? AND is_deleted = 0");
     $stmt->execute([$id]);
     $_SESSION['success_message'] = 'Vendor deleted successfully.';
 } catch (PDOException $e) {

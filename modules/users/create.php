@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    $checkStmt = $pdo->prepare("SELECT id FROM users WHERE email = ? AND deleted_at IS NULL");
+    $checkStmt = $pdo->prepare("SELECT id FROM users WHERE email = ? AND is_deleted = 0");
     $checkStmt->execute([$email]);
     if ($checkStmt->fetch()) {
         $_SESSION['error_message'] = 'Email already exists.';

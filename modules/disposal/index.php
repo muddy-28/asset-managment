@@ -11,7 +11,7 @@ $stmt = $pdo->query("
     SELECT d.*, a.asset_name
     FROM asset_disposal d
     LEFT JOIN assets a ON d.asset_id = a.id
-    WHERE d.deleted_at IS NULL
+    WHERE d.is_deleted = 0
     ORDER BY d.created_at DESC
 ");
 $disposals = $stmt->fetchAll(PDO::FETCH_ASSOC);

@@ -6,7 +6,7 @@ require_once __DIR__ . '/../../config/database.php';
 $pageTitle = 'Vendors';
 $pdo = getDBConnection();
 
-$stmt = $pdo->prepare("SELECT * FROM vendors WHERE deleted_at IS NULL ORDER BY id DESC");
+$stmt = $pdo->prepare("SELECT * FROM vendors WHERE is_deleted = 0 ORDER BY id DESC");
 $stmt->execute();
 $vendors = $stmt->fetchAll();
 

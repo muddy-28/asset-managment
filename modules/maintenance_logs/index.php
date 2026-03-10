@@ -12,7 +12,7 @@ $stmt = $pdo->query("
     FROM asset_maintenance_logs l
     LEFT JOIN assets a ON l.asset_id = a.id
     LEFT JOIN vendors v ON l.vendor_id = v.id
-    WHERE l.deleted_at IS NULL
+    WHERE l.is_deleted = 0
     ORDER BY l.created_at DESC
 ");
 $logs = $stmt->fetchAll(PDO::FETCH_ASSOC);

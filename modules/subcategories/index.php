@@ -6,7 +6,7 @@ require_once __DIR__ . '/../../config/database.php';
 $pageTitle = 'Subcategories';
 $pdo = getDBConnection();
 
-$stmt = $pdo->prepare("SELECT s.*, c.category_name FROM asset_subcategories s LEFT JOIN asset_categories c ON s.category_id = c.id WHERE s.deleted_at IS NULL ORDER BY s.id DESC");
+$stmt = $pdo->prepare("SELECT s.*, c.category_name FROM asset_subcategories s LEFT JOIN asset_categories c ON s.category_id = c.id WHERE s.is_deleted = 0 ORDER BY s.id DESC");
 $stmt->execute();
 $subcategories = $stmt->fetchAll();
 

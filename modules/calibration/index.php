@@ -12,7 +12,7 @@ $stmt = $pdo->query("
     FROM asset_calibration c
     LEFT JOIN assets a ON c.asset_id = a.id
     LEFT JOIN vendors v ON c.vendor_id = v.id
-    WHERE c.deleted_at IS NULL
+    WHERE c.is_deleted = 0
     ORDER BY c.created_at DESC
 ");
 $calibrations = $stmt->fetchAll(PDO::FETCH_ASSOC);

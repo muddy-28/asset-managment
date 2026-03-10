@@ -7,8 +7,8 @@ $pdo = getDBConnection();
 
 $pageTitle = 'Add Maintenance Schedule';
 
-$assets = $pdo->query("SELECT id, asset_name FROM assets WHERE deleted_at IS NULL ORDER BY asset_name")->fetchAll(PDO::FETCH_ASSOC);
-$departments = $pdo->query("SELECT id, department_name FROM departments WHERE deleted_at IS NULL ORDER BY department_name")->fetchAll(PDO::FETCH_ASSOC);
+$assets = $pdo->query("SELECT id, asset_name FROM assets WHERE is_deleted = 0 ORDER BY asset_name")->fetchAll(PDO::FETCH_ASSOC);
+$departments = $pdo->query("SELECT id, department_name FROM departments WHERE is_deleted = 0 ORDER BY department_name")->fetchAll(PDO::FETCH_ASSOC);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {

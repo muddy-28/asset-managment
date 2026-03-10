@@ -7,7 +7,7 @@ $pageTitle = 'Edit Vendor';
 $pdo = getDBConnection();
 
 $id = (int)($_GET['id'] ?? 0);
-$stmt = $pdo->prepare("SELECT * FROM vendors WHERE id = ? AND deleted_at IS NULL");
+$stmt = $pdo->prepare("SELECT * FROM vendors WHERE id = ? AND is_deleted = 0");
 $stmt->execute([$id]);
 $vendor = $stmt->fetch();
 if (!$vendor) {

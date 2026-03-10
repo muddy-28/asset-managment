@@ -6,7 +6,7 @@ require_once __DIR__ . '/../../config/database.php';
 $pageTitle = 'Categories';
 $pdo = getDBConnection();
 
-$stmt = $pdo->prepare("SELECT * FROM asset_categories WHERE deleted_at IS NULL ORDER BY id DESC");
+$stmt = $pdo->prepare("SELECT * FROM asset_categories WHERE is_deleted = 0 ORDER BY id DESC");
 $stmt->execute();
 $categories = $stmt->fetchAll();
 

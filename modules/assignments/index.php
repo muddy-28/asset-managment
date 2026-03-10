@@ -13,7 +13,7 @@ $stmt = $pdo->prepare("
     LEFT JOIN floors f ON aa.floor_id = f.id
     LEFT JOIN departments d ON aa.department_id = d.id
     LEFT JOIN locations l ON aa.location_id = l.id
-    WHERE aa.deleted_at IS NULL
+    WHERE aa.is_deleted = 0
     ORDER BY aa.id DESC
 ");
 $stmt->execute();

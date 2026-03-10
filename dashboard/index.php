@@ -26,15 +26,15 @@ $tables = [
 
 // Each count uses a separate hardcoded query to avoid dynamic table names in SQL
 $countQueries = [
-    'assets'                     => 'SELECT COUNT(*) as total FROM assets WHERE deleted_at IS NULL',
-    'asset_categories'           => 'SELECT COUNT(*) as total FROM asset_categories WHERE deleted_at IS NULL',
-    'vendors'                    => 'SELECT COUNT(*) as total FROM vendors WHERE deleted_at IS NULL',
-    'departments'                => 'SELECT COUNT(*) as total FROM departments WHERE deleted_at IS NULL',
-    'floors'                     => 'SELECT COUNT(*) as total FROM floors WHERE deleted_at IS NULL',
-    'locations'                  => 'SELECT COUNT(*) as total FROM locations WHERE deleted_at IS NULL',
-    'asset_assignments'          => 'SELECT COUNT(*) as total FROM asset_assignments WHERE deleted_at IS NULL',
-    'asset_maintenance_schedule' => 'SELECT COUNT(*) as total FROM asset_maintenance_schedule WHERE deleted_at IS NULL',
-    'users'                      => 'SELECT COUNT(*) as total FROM users WHERE deleted_at IS NULL',
+    'assets'                     => 'SELECT COUNT(*) as total FROM assets WHERE is_deleted = 0',
+    'asset_categories'           => 'SELECT COUNT(*) as total FROM asset_categories WHERE is_deleted = 0',
+    'vendors'                    => 'SELECT COUNT(*) as total FROM vendors WHERE is_deleted = 0',
+    'departments'                => 'SELECT COUNT(*) as total FROM departments WHERE is_deleted = 0',
+    'floors'                     => 'SELECT COUNT(*) as total FROM floors WHERE is_deleted = 0',
+    'locations'                  => 'SELECT COUNT(*) as total FROM locations WHERE is_deleted = 0',
+    'asset_assignments'          => 'SELECT COUNT(*) as total FROM asset_assignments WHERE is_deleted = 0',
+    'asset_maintenance_schedule' => 'SELECT COUNT(*) as total FROM asset_maintenance_schedule WHERE is_deleted = 0',
+    'users'                      => 'SELECT COUNT(*) as total FROM users WHERE is_deleted = 0',
 ];
 
 foreach ($tables as $table => $label) {
@@ -128,7 +128,7 @@ require_once __DIR__ . '/../views/sidebar.php';
 // Fetch chart data
 $statusData = [];
 try {
-    $stmt = $pdo->prepare("SELECT status, COUNT(*) as total FROM assets WHERE deleted_at IS NULL GROUP BY status");
+    $stmt = $pdo->prepare("SELECT status, COUNT(*) as total FROM assets WHERE is_deleted = 0 GROUP BY status");
     $stmt->execute();
     while ($row = $stmt->fetch()) {
         $statusData[$row['status']] = (int) $row['total'];
@@ -142,8 +142,8 @@ try {
     $stmt = $pdo->prepare(
         "SELECT c.category_name, COUNT(a.id) as total
          FROM asset_categories c
-         LEFT JOIN assets a ON a.category_id = c.id AND a.deleted_at IS NULL
-         WHERE c.deleted_at IS NULL
+         LEFT JOIN assets a ON a.category_id = c.id AND a.is_deleted = 0
+         WHERE c.is_deleted = 0
          GROUP BY c.id, c.category_name
          ORDER BY total DESC
          LIMIT 10"

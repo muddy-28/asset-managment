@@ -6,19 +6,19 @@ require_once __DIR__ . '/../../config/database.php';
 $pageTitle = 'Add Assignment';
 $pdo = getDBConnection();
 
-$stmt = $pdo->prepare("SELECT id, asset_name, asset_tag FROM assets WHERE deleted_at IS NULL ORDER BY asset_name");
+$stmt = $pdo->prepare("SELECT id, asset_name, asset_tag FROM assets WHERE is_deleted = 0 ORDER BY asset_name");
 $stmt->execute();
 $assets = $stmt->fetchAll();
 
-$stmt = $pdo->prepare("SELECT id, floor_name FROM floors WHERE deleted_at IS NULL ORDER BY floor_name");
+$stmt = $pdo->prepare("SELECT id, floor_name FROM floors WHERE is_deleted = 0 ORDER BY floor_name");
 $stmt->execute();
 $floors = $stmt->fetchAll();
 
-$stmt = $pdo->prepare("SELECT id, department_name FROM departments WHERE deleted_at IS NULL ORDER BY department_name");
+$stmt = $pdo->prepare("SELECT id, department_name FROM departments WHERE is_deleted = 0 ORDER BY department_name");
 $stmt->execute();
 $departments = $stmt->fetchAll();
 
-$stmt = $pdo->prepare("SELECT id, location_name FROM locations WHERE deleted_at IS NULL ORDER BY location_name");
+$stmt = $pdo->prepare("SELECT id, location_name FROM locations WHERE is_deleted = 0 ORDER BY location_name");
 $stmt->execute();
 $locations = $stmt->fetchAll();
 
