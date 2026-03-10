@@ -13,7 +13,7 @@ if ($id <= 0) {
     exit;
 }
 
-$stmt = $pdo->prepare("SELECT * FROM asset_assignments WHERE id = ?");
+$stmt = $pdo->prepare("SELECT * FROM asset_assignments WHERE id = ? AND deleted_at IS NULL");
 $stmt->execute([$id]);
 $assignment = $stmt->fetch();
 
@@ -23,19 +23,19 @@ if (!$assignment) {
     exit;
 }
 
-$stmt = $pdo->prepare("SELECT id, asset_name, asset_tag FROM assets ORDER BY asset_name");
+$stmt = $pdo->prepare("SELECT id, asset_name, asset_tag FROM assets WHERE deleted_at IS NULL ORDER BY asset_name");
 $stmt->execute();
 $assets = $stmt->fetchAll();
 
-$stmt = $pdo->prepare("SELECT id, floor_name FROM floors ORDER BY floor_name");
+$stmt = $pdo->prepare("SELECT id, floor_name FROM floors WHERE deleted_at IS NULL ORDER BY floor_name");
 $stmt->execute();
 $floors = $stmt->fetchAll();
 
-$stmt = $pdo->prepare("SELECT id, department_name FROM departments ORDER BY department_name");
+$stmt = $pdo->prepare("SELECT id, department_name FROM departments WHERE deleted_at IS NULL ORDER BY department_name");
 $stmt->execute();
 $departments = $stmt->fetchAll();
 
-$stmt = $pdo->prepare("SELECT id, location_name FROM locations ORDER BY location_name");
+$stmt = $pdo->prepare("SELECT id, location_name FROM locations WHERE deleted_at IS NULL ORDER BY location_name");
 $stmt->execute();
 $locations = $stmt->fetchAll();
 

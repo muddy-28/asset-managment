@@ -23,7 +23,7 @@ if ($id <= 0) {
 
 $pdo = getDBConnection();
 try {
-    $stmt = $pdo->prepare("DELETE FROM asset_subcategories WHERE id = ?");
+    $stmt = $pdo->prepare("UPDATE asset_subcategories SET deleted_at = NOW() WHERE id = ? AND deleted_at IS NULL");
     $stmt->execute([$id]);
     $_SESSION['success_message'] = 'Subcategory deleted successfully.';
 } catch (PDOException $e) {

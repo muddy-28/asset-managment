@@ -6,7 +6,7 @@ require_once __DIR__ . '/../../config/database.php';
 $pageTitle = 'Floors';
 $pdo = getDBConnection();
 
-$stmt = $pdo->prepare("SELECT * FROM floors ORDER BY id DESC");
+$stmt = $pdo->prepare("SELECT * FROM floors WHERE deleted_at IS NULL ORDER BY id DESC");
 $stmt->execute();
 $floors = $stmt->fetchAll();
 

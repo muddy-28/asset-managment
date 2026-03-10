@@ -6,7 +6,7 @@ require_once __DIR__ . '/../../config/database.php';
 $pageTitle = 'Add Subcategory';
 $pdo = getDBConnection();
 
-$stmt = $pdo->prepare("SELECT id, category_name FROM asset_categories ORDER BY category_name ASC");
+$stmt = $pdo->prepare("SELECT id, category_name FROM asset_categories WHERE deleted_at IS NULL ORDER BY category_name ASC");
 $stmt->execute();
 $categories = $stmt->fetchAll();
 

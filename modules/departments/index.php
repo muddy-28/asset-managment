@@ -6,7 +6,7 @@ require_once __DIR__ . '/../../config/database.php';
 $pageTitle = 'Departments';
 $pdo = getDBConnection();
 
-$stmt = $pdo->prepare("SELECT d.*, f.floor_name FROM departments d LEFT JOIN floors f ON d.floor_id = f.id ORDER BY d.id DESC");
+$stmt = $pdo->prepare("SELECT d.*, f.floor_name FROM departments d LEFT JOIN floors f ON d.floor_id = f.id WHERE d.deleted_at IS NULL ORDER BY d.id DESC");
 $stmt->execute();
 $departments = $stmt->fetchAll();
 
