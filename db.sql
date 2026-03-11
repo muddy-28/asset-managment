@@ -353,3 +353,25 @@ CREATE TABLE users (
 -- Insert default admin user (password: admin123)
 INSERT INTO users (name, email, password, role, status) VALUES
 ('Administrator', 'admin@hospital.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin', 'active');
+
+-- =====================================================
+-- ACTIVITY LOGS
+-- =====================================================
+
+CREATE TABLE activity_logs (
+    id          INT AUTO_INCREMENT PRIMARY KEY,
+    user_id     INT          NULL,
+    user_name   VARCHAR(150) NULL,
+    action_type VARCHAR(50)  NOT NULL,
+    module      VARCHAR(100) NOT NULL,
+    record_id   INT          NULL,
+    description TEXT         NULL,
+    ip_address  VARCHAR(45)  NULL,
+    duration_ms INT          NULL,
+    created_at  TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
+);
+
+CREATE INDEX idx_activity_logs_user    ON activity_logs (user_id);
+CREATE INDEX idx_activity_logs_module  ON activity_logs (module);
+CREATE INDEX idx_activity_logs_created ON activity_logs (created_at);

@@ -25,15 +25,13 @@ function logActivity(PDO $pdo, string $actionType, string $module, ?int $recordI
     $userId   = isset($_SESSION['user_id'])   ? (int)$_SESSION['user_id']   : null;
     $userName = isset($_SESSION['user_name']) ? $_SESSION['user_name']       : null;
 
-    // Collect client IP, respecting proxy headers
-    $ipAddress = $_SERVER['HTTP_X_FORWARDED_FOR']
-        ?? $_SERVER['HTTP_CLIENT_IP']
-        ?? $_SERVER['REMOTE_ADDR']
-        ?? null;
+    // Use REMOTE_ADDR as the authoritative client IP; proxy headers can be spoofed
+    $ipAddress = $_SERVER['REMOTE_ADDR'] ?? null;
 
-    // When a proxy adds a list of IPs, take only the first (client) one
-    if ($ipAddress !== null && strpos($ipAddress, ',') !== false) {
-        $ipAddress = trim(explode(',', $ipAddress)[0]);
+    // Sanitise to a valid IPv4/IPv6 address and truncate to column width
+    if ($ipAddress !== null) {
+        $validated = filter_var($ipAddress, FILTER_VALIDATE_IP);
+        $ipAddress = $validated !== false ? substr($validated, 0, 45) : null;
     }
 
     try {

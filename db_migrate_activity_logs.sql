@@ -15,6 +15,6 @@ CREATE TABLE IF NOT EXISTS activity_logs (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
 );
 
-CREATE INDEX IF NOT EXISTS idx_activity_logs_user    ON activity_logs (user_id);
-CREATE INDEX IF NOT EXISTS idx_activity_logs_module  ON activity_logs (module);
-CREATE INDEX IF NOT EXISTS idx_activity_logs_created ON activity_logs (created_at);
+CREATE INDEX idx_activity_logs_user    ON activity_logs (user_id);
+CREATE INDEX idx_activity_logs_module  ON activity_logs (module);
+CREATE INDEX idx_activity_logs_created ON activity_logs (created_at);
