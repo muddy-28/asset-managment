@@ -2,6 +2,7 @@
 session_start();
 require_once __DIR__ . '/../../middleware/auth_check.php';
 require_once __DIR__ . '/../../config/database.php';
+require_once __DIR__ . '/../../config/activity_logger.php';
 
 $pageTitle = 'Edit Department';
 $pdo = getDBConnection();
@@ -47,6 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt = $pdo->prepare("UPDATE departments SET department_name = ?, department_code = ?, floor_id = ?, description = ?, status = ? WHERE id = ?");
             $stmt->execute([$department_name, $department_code, $floor_id, $description, $status, $id]);
             $_SESSION['success_message'] = 'Department updated successfully.';
+            logActivity($pdo, 'update', 'departments', $id, 'Updated department ID ' . $id . ': ' . $department_name);
             header('Location: index.php');
             exit;
         } catch (PDOException $e) {

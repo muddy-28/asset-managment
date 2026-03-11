@@ -2,6 +2,7 @@
 session_start();
 require_once __DIR__ . '/../../middleware/auth_check.php';
 require_once __DIR__ . '/../../config/database.php';
+require_once __DIR__ . '/../../config/activity_logger.php';
 
 $pageTitle = 'Edit Assignment';
 $pdo = getDBConnection();
@@ -61,6 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt = $pdo->prepare("UPDATE asset_assignments SET asset_id = ?, floor_id = ?, department_id = ?, location_id = ?, assigned_date = ?, assigned_by = ?, status = ? WHERE id = ?");
             $stmt->execute([$asset_id, $floor_id, $department_id, $location_id, $assigned_date ?: null, $assigned_by, $status, $id]);
             $_SESSION['success_message'] = 'Assignment updated successfully.';
+            logActivity($pdo, 'update', 'assignments', $id, 'Updated assignment ID ' . $id);
             header('Location: index.php');
             exit;
         } catch (PDOException $e) {

@@ -2,6 +2,7 @@
 session_start();
 require_once __DIR__ . '/../../middleware/auth_check.php';
 require_once __DIR__ . '/../../config/database.php';
+require_once __DIR__ . '/../../config/activity_logger.php';
 
 $pdo = getDBConnection();
 
@@ -18,6 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->execute([$id]);
 
     $_SESSION['success_message'] = 'Maintenance log deleted successfully.';
+    logActivity($pdo, 'delete', 'maintenance_logs', $id, 'Deleted maintenance log ID ' . $id);
     header('Location: index.php');
     exit;
 }

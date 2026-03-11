@@ -2,6 +2,7 @@
 session_start();
 require_once __DIR__ . '/../../middleware/auth_check.php';
 require_once __DIR__ . '/../../config/database.php';
+require_once __DIR__ . '/../../config/activity_logger.php';
 
 $pageTitle = 'Edit Floor';
 $pdo = getDBConnection();
@@ -31,6 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $pdo->prepare("UPDATE floors SET floor_name = ?, floor_code = ?, building = ? WHERE id = ?");
         $stmt->execute([$floor_name, $floor_code, $building, $id]);
         $_SESSION['success_message'] = 'Floor updated successfully.';
+        logActivity($pdo, 'update', 'floors', $id, 'Updated floor ID ' . $id . ': ' . $floor_name);
         header('Location: index.php');
         exit;
     }

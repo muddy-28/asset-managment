@@ -2,6 +2,7 @@
 session_start();
 require_once __DIR__ . '/../../middleware/auth_check.php';
 require_once __DIR__ . '/../../config/database.php';
+require_once __DIR__ . '/../../config/activity_logger.php';
 
 $pageTitle = 'Add Vendor';
 $pdo = getDBConnection();
@@ -23,6 +24,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $pdo->prepare("INSERT INTO vendors (vendor_name, contact_person, phone, email, address) VALUES (?, ?, ?, ?, ?)");
         $stmt->execute([$vendor_name, $contact_person, $phone, $email, $address]);
         $_SESSION['success_message'] = 'Vendor created successfully.';
+        $newId = (int)$pdo->lastInsertId();
+        logActivity($pdo, 'create', 'vendors', $newId, 'Created vendor: ' . $vendor_name);
         header('Location: index.php');
         exit;
     }

@@ -2,6 +2,7 @@
 session_start();
 require_once __DIR__ . '/../../middleware/auth_check.php';
 require_once __DIR__ . '/../../config/database.php';
+require_once __DIR__ . '/../../config/activity_logger.php';
 
 $pageTitle = 'Add Floor';
 $pdo = getDBConnection();
@@ -21,6 +22,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $pdo->prepare("INSERT INTO floors (floor_name, floor_code, building) VALUES (?, ?, ?)");
         $stmt->execute([$floor_name, $floor_code, $building]);
         $_SESSION['success_message'] = 'Floor created successfully.';
+        $newId = (int)$pdo->lastInsertId();
+        logActivity($pdo, 'create', 'floors', $newId, 'Created floor: ' . $floor_name);
         header('Location: index.php');
         exit;
     }

@@ -115,6 +115,11 @@ function isActive(string $path): string
                 <i class="fas fa-users-cog"></i><span>Users</span>
             </a>
         </li>
+        <li class="sidebar-item <?php echo isActive('/modules/activity_logs/'); ?>">
+            <a href="<?php echo BASE_URL; ?>/modules/activity_logs/index.php" class="sidebar-link">
+                <i class="fas fa-history"></i><span>Activity Logs</span>
+            </a>
+        </li>
         <li class="sidebar-item">
             <a href="<?php echo BASE_URL; ?>/auth/logout.php" class="sidebar-link text-danger">
                 <i class="fas fa-sign-out-alt"></i><span>Logout</span>

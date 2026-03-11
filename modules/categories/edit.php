@@ -2,6 +2,7 @@
 session_start();
 require_once __DIR__ . '/../../middleware/auth_check.php';
 require_once __DIR__ . '/../../config/database.php';
+require_once __DIR__ . '/../../config/activity_logger.php';
 
 $pageTitle = 'Edit Category';
 $pdo = getDBConnection();
@@ -30,6 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $pdo->prepare("UPDATE asset_categories SET category_name = ?, description = ? WHERE id = ?");
         $stmt->execute([$category_name, $description, $id]);
         $_SESSION['success_message'] = 'Category updated successfully.';
+        logActivity($pdo, 'update', 'categories', $id, 'Updated category ID ' . $id . ': ' . $category_name);
         header('Location: index.php');
         exit;
     }

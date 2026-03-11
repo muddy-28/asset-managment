@@ -9,6 +9,14 @@ if (session_status() === PHP_SESSION_NONE) {
 
 require_once __DIR__ . '/../config/app.php';
 
+// Log the logout action before session is destroyed
+if (isset($_SESSION['user_id'])) {
+    require_once __DIR__ . '/../config/database.php';
+    require_once __DIR__ . '/../config/activity_logger.php';
+    $pdo = getDBConnection();
+    logActivity($pdo, 'logout', 'auth', (int)$_SESSION['user_id'], 'User logged out: ' . ($_SESSION['user_name'] ?? ''));
+}
+
 $_SESSION = [];
 
 if (ini_get('session.use_cookies')) {

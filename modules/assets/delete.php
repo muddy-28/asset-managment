@@ -2,6 +2,7 @@
 session_start();
 require_once __DIR__ . '/../../middleware/auth_check.php';
 require_once __DIR__ . '/../../config/database.php';
+require_once __DIR__ . '/../../config/activity_logger.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     $_SESSION['error_message'] = 'Invalid request method.';
@@ -31,6 +32,7 @@ try {
 
     if ($stmt->rowCount() > 0) {
         $_SESSION['success_message'] = 'Asset deleted successfully.';
+        logActivity($pdo, 'delete', 'assets', $id, 'Deleted asset ID ' . $id);
     } else {
         $_SESSION['error_message'] = 'Asset not found.';
     }

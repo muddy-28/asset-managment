@@ -2,6 +2,7 @@
 session_start();
 require_once __DIR__ . '/../../middleware/auth_check.php';
 require_once __DIR__ . '/../../config/database.php';
+require_once __DIR__ . '/../../config/activity_logger.php';
 
 $pageTitle = 'Add Location';
 $pdo = getDBConnection();
@@ -34,6 +35,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt = $pdo->prepare("INSERT INTO locations (location_name, room_number, floor_id, department_id, description) VALUES (?, ?, ?, ?, ?)");
             $stmt->execute([$location_name, $room_number, $floor_id, $department_id, $description]);
             $_SESSION['success_message'] = 'Location created successfully.';
+            $newId = (int)$pdo->lastInsertId();
+            logActivity($pdo, 'create', 'locations', $newId, 'Created location: ' . $location_name);
             header('Location: index.php');
             exit;
         } catch (PDOException $e) {

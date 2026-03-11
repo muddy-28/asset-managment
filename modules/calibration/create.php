@@ -2,6 +2,7 @@
 session_start();
 require_once __DIR__ . '/../../middleware/auth_check.php';
 require_once __DIR__ . '/../../config/database.php';
+require_once __DIR__ . '/../../config/activity_logger.php';
 
 $pdo = getDBConnection();
 
@@ -31,6 +32,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->execute([$asset_id, $calibration_date, $calibration_due, $certificate_number, $vendor_id, $remarks]);
 
     $_SESSION['success_message'] = 'Calibration record created successfully.';
+    $newId = (int)$pdo->lastInsertId();
+    logActivity($pdo, 'create', 'calibration', $newId, 'Created calibration record for asset ID ' . $asset_id);
     header('Location: index.php');
     exit;
 }

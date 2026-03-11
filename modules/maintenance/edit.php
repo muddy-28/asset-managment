@@ -2,6 +2,7 @@
 session_start();
 require_once __DIR__ . '/../../middleware/auth_check.php';
 require_once __DIR__ . '/../../config/database.php';
+require_once __DIR__ . '/../../config/activity_logger.php';
 
 $pdo = getDBConnection();
 
@@ -53,6 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->execute([$asset_id, $maintenance_type, $frequency_value, $frequency_unit, $last_maintenance_date, $next_due_date, $reminder_days_before, $responsible_department, $responsible_person, $status, $id]);
 
     $_SESSION['success_message'] = 'Maintenance schedule updated successfully.';
+    logActivity($pdo, 'update', 'maintenance', $id, 'Updated maintenance schedule ID ' . $id);
     header('Location: index.php');
     exit;
 }

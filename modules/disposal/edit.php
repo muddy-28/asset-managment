@@ -2,6 +2,7 @@
 session_start();
 require_once __DIR__ . '/../../middleware/auth_check.php';
 require_once __DIR__ . '/../../config/database.php';
+require_once __DIR__ . '/../../config/activity_logger.php';
 
 $pdo = getDBConnection();
 
@@ -47,6 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->execute([$asset_id, $disposal_date, $disposal_method, $remarks, $approved_by, $id]);
 
     $_SESSION['success_message'] = 'Disposal record updated successfully.';
+    logActivity($pdo, 'update', 'disposal', $id, 'Updated disposal record ID ' . $id);
     header('Location: index.php');
     exit;
 }

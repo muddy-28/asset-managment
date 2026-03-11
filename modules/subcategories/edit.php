@@ -2,6 +2,7 @@
 session_start();
 require_once __DIR__ . '/../../middleware/auth_check.php';
 require_once __DIR__ . '/../../config/database.php';
+require_once __DIR__ . '/../../config/activity_logger.php';
 
 $pageTitle = 'Edit Subcategory';
 $pdo = getDBConnection();
@@ -35,6 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $pdo->prepare("UPDATE asset_subcategories SET subcategory_name = ?, category_id = ?, description = ? WHERE id = ?");
         $stmt->execute([$subcategory_name, $category_id, $description, $id]);
         $_SESSION['success_message'] = 'Subcategory updated successfully.';
+        logActivity($pdo, 'update', 'subcategories', $id, 'Updated subcategory ID ' . $id . ': ' . $subcategory_name);
         header('Location: index.php');
         exit;
     }

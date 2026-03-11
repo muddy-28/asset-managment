@@ -3,6 +3,7 @@ session_start();
 require_once __DIR__ . '/../../middleware/auth_check.php';
 checkRole(['admin']);
 require_once __DIR__ . '/../../config/database.php';
+require_once __DIR__ . '/../../config/activity_logger.php';
 
 $pdo = getDBConnection();
 
@@ -44,6 +45,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->execute([$name, $email, $hashedPassword, $role, $status]);
 
     $_SESSION['success_message'] = 'User created successfully.';
+    $newId = (int)$pdo->lastInsertId();
+    logActivity($pdo, 'create', 'users', $newId, 'Created user: ' . $name);
     header('Location: index.php');
     exit;
 }

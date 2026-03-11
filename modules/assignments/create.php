@@ -2,6 +2,7 @@
 session_start();
 require_once __DIR__ . '/../../middleware/auth_check.php';
 require_once __DIR__ . '/../../config/database.php';
+require_once __DIR__ . '/../../config/activity_logger.php';
 
 $pageTitle = 'Add Assignment';
 $pdo = getDBConnection();
@@ -44,6 +45,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt = $pdo->prepare("INSERT INTO asset_assignments (asset_id, floor_id, department_id, location_id, assigned_date, assigned_by, status) VALUES (?, ?, ?, ?, ?, ?, ?)");
             $stmt->execute([$asset_id, $floor_id, $department_id, $location_id, $assigned_date ?: null, $assigned_by, $status]);
             $_SESSION['success_message'] = 'Assignment created successfully.';
+            $newId = (int)$pdo->lastInsertId();
+            logActivity($pdo, 'create', 'assignments', $newId, 'Created assignment for asset ID ' . $asset_id);
             header('Location: index.php');
             exit;
         } catch (PDOException $e) {
