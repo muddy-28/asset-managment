@@ -2,6 +2,7 @@
 session_start();
 require_once __DIR__ . '/../../middleware/auth_check.php';
 require_once __DIR__ . '/../../config/database.php';
+require_once __DIR__ . '/../../config/activity_logger.php';
 
 $pdo = getDBConnection();
 
@@ -29,10 +30,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             VALUES (?, ?, ?, ?, ?)
         ");
         $stmt->execute([$asset_id, $disposal_date, $disposal_method, $remarks, $approved_by]);
+        $newId = (int)$pdo->lastInsertId();
 
         $stmt = $pdo->prepare("UPDATE assets SET status = 'disposed' WHERE id = ?");
         $stmt->execute([$asset_id]);
 
+        logActivity($pdo, 'create', 'disposal', $newId, 'Created disposal record for asset ID ' . $asset_id);
         $pdo->commit();
         $_SESSION['success_message'] = 'Asset disposal recorded successfully.';
     } catch (Exception $e) {

@@ -2,6 +2,7 @@
 session_start();
 require_once __DIR__ . '/../../middleware/auth_check.php';
 require_once __DIR__ . '/../../config/database.php';
+require_once __DIR__ . '/../../config/activity_logger.php';
 
 $pageTitle = 'Add Department';
 $pdo = getDBConnection();
@@ -30,6 +31,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt = $pdo->prepare("INSERT INTO departments (department_name, department_code, floor_id, description, status) VALUES (?, ?, ?, ?, ?)");
             $stmt->execute([$department_name, $department_code, $floor_id, $description, $status]);
             $_SESSION['success_message'] = 'Department created successfully.';
+            $newId = (int)$pdo->lastInsertId();
+            logActivity($pdo, 'create', 'departments', $newId, 'Created department: ' . $department_name);
             header('Location: index.php');
             exit;
         } catch (PDOException $e) {

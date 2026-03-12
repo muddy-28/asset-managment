@@ -2,6 +2,7 @@
 session_start();
 require_once __DIR__ . '/../../middleware/auth_check.php';
 require_once __DIR__ . '/../../config/database.php';
+require_once __DIR__ . '/../../config/activity_logger.php';
 
 $pageTitle = 'New Transfer';
 $pdo = getDBConnection();
@@ -43,6 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // 1. Insert into asset_transfer_history
             $stmt = $pdo->prepare("INSERT INTO asset_transfer_history (asset_id, from_department, to_department, from_location, to_location, transfer_date, transferred_by, remarks) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
             $stmt->execute([$asset_id, $from_department, $to_department, $from_location, $to_location, $transfer_date !== '' ? $transfer_date : null, $transferred_by, $remarks]);
+            $newId = (int)$pdo->lastInsertId();
 
             // 2. Mark existing active assignment for this asset as 'moved'
             $stmt = $pdo->prepare("UPDATE asset_assignments SET status = 'moved' WHERE asset_id = ? AND status = 'active'");
@@ -73,6 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $pdo->commit();
             $_SESSION['success_message'] = 'Transfer recorded successfully.';
+            logActivity($pdo, 'create', 'transfers', $newId, 'Created transfer for asset ID ' . $asset_id);
             header('Location: index.php');
             exit;
         } catch (PDOException $e) {

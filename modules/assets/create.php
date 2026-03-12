@@ -2,6 +2,7 @@
 session_start();
 require_once __DIR__ . '/../../middleware/auth_check.php';
 require_once __DIR__ . '/../../config/database.php';
+require_once __DIR__ . '/../../config/activity_logger.php';
 
 $pageTitle = 'Add New Asset';
 
@@ -60,6 +61,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ]);
 
         $_SESSION['success_message'] = 'Asset created successfully.';
+        $newId = (int)$pdo->lastInsertId();
+        logActivity($pdo, 'create', 'assets', $newId, 'Created asset: ' . $asset_name . ' (' . $asset_tag . ')');
         header('Location: index.php');
         exit;
     } catch (PDOException $e) {

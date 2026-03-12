@@ -2,6 +2,7 @@
 session_start();
 require_once __DIR__ . '/../../middleware/auth_check.php';
 require_once __DIR__ . '/../../config/database.php';
+require_once __DIR__ . '/../../config/activity_logger.php';
 
 $pageTitle = 'Add Subcategory';
 $pdo = getDBConnection();
@@ -25,6 +26,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $pdo->prepare("INSERT INTO asset_subcategories (subcategory_name, category_id, description) VALUES (?, ?, ?)");
         $stmt->execute([$subcategory_name, $category_id, $description]);
         $_SESSION['success_message'] = 'Subcategory created successfully.';
+        $newId = (int)$pdo->lastInsertId();
+        logActivity($pdo, 'create', 'subcategories', $newId, 'Created subcategory: ' . $subcategory_name);
         header('Location: index.php');
         exit;
     }

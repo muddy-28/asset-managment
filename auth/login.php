@@ -56,6 +56,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     // Regenerate CSRF token after login
                     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 
+                    // Log successful login
+                    require_once __DIR__ . '/../config/activity_logger.php';
+                    logActivity($pdo, 'login', 'auth', (int)$user['id'], 'User logged in: ' . $user['name']);
+
                     header('Location: ' . BASE_URL . '/dashboard/index.php');
                     exit;
                 }

@@ -2,6 +2,7 @@
 session_start();
 require_once __DIR__ . '/../../middleware/auth_check.php';
 require_once __DIR__ . '/../../config/database.php';
+require_once __DIR__ . '/../../config/activity_logger.php';
 
 $pageTitle = 'Add Category';
 $pdo = getDBConnection();
@@ -20,6 +21,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $pdo->prepare("INSERT INTO asset_categories (category_name, description) VALUES (?, ?)");
         $stmt->execute([$category_name, $description]);
         $_SESSION['success_message'] = 'Category created successfully.';
+        $newId = (int)$pdo->lastInsertId();
+        logActivity($pdo, 'create', 'categories', $newId, 'Created category: ' . $category_name);
         header('Location: index.php');
         exit;
     }
