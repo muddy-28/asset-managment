@@ -30,6 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $purchase_cost = !empty($_POST['purchase_cost']) ? $_POST['purchase_cost'] : null;
     $vendor_id = !empty($_POST['vendor_id']) ? (int)$_POST['vendor_id'] : null;
     $warranty_expiry = !empty($_POST['warranty_expiry']) ? $_POST['warranty_expiry'] : null;
+    $quantity = max(1, (int)($_POST['quantity'] ?? 1));
     $asset_condition = $_POST['asset_condition'] ?? 'new';
     $status = $_POST['status'] ?? 'active';
 
@@ -53,6 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 purchase_cost = :purchase_cost,
                 vendor_id = :vendor_id,
                 warranty_expiry = :warranty_expiry,
+                quantity = :quantity,
                 asset_condition = :asset_condition,
                 status = :status
             WHERE id = :id
@@ -69,6 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ':purchase_cost' => $purchase_cost,
             ':vendor_id' => $vendor_id,
             ':warranty_expiry' => $warranty_expiry,
+            ':quantity' => $quantity,
             ':asset_condition' => $asset_condition,
             ':status' => $status,
             ':id' => $id,
@@ -221,7 +224,12 @@ require_once __DIR__ . '/../../views/sidebar.php';
                     </div>
 
                     <div class="row mb-3">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
+                            <label for="quantity" class="form-label">Quantity</label>
+                            <input type="number" class="form-control" id="quantity" name="quantity" min="1" required
+                                   value="<?php echo (int)($asset['quantity'] ?? 1); ?>">
+                        </div>
+                        <div class="col-md-4">
                             <label for="asset_condition" class="form-label">Condition</label>
                             <select class="form-select" id="asset_condition" name="asset_condition">
                                 <?php
@@ -234,7 +242,7 @@ require_once __DIR__ . '/../../views/sidebar.php';
                                 <?php endforeach; ?>
                             </select>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <label for="status" class="form-label">Status</label>
                             <select class="form-select" id="status" name="status">
                                 <?php

@@ -113,6 +113,8 @@ CREATE TABLE assets (
 
     warranty_expiry DATE,
 
+    quantity INT NOT NULL DEFAULT 1,
+
     asset_condition ENUM('new','good','fair','poor','damaged'),
     status ENUM('active','maintenance','disposed','lost') DEFAULT 'active',
 
