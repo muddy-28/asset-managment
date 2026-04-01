@@ -154,6 +154,10 @@ require_once __DIR__ . '/../../views/sidebar.php';
                                 <td><?php echo htmlspecialchars(ucfirst($asset['asset_condition'] ?? 'N/A'), ENT_QUOTES, 'UTF-8'); ?></td>
                             </tr>
                             <tr>
+                                <th class="text-muted">Quantity</th>
+                                <td><?php echo (int)($asset['quantity'] ?? 1); ?></td>
+                            </tr>
+                            <tr>
                                 <th class="text-muted">Status</th>
                                 <td>
                                     <span class="badge bg-<?php echo $statusClasses[$asset['status']] ?? 'secondary'; ?>">

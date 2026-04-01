@@ -13,6 +13,7 @@
 -- script:
 --   • db_migrate_soft_delete.sql   (integrated below)
 --   • db_migrate_activity_logs.sql (integrated below)
+--   • db_migrate_quantity.sql      (integrated below)
 -- =====================================================
 
 -- =====================================================
@@ -127,6 +128,7 @@ CREATE TABLE assets (
     purchase_cost   DECIMAL(12,2),
     vendor_id       INT,
     warranty_expiry DATE,
+    quantity        INT NOT NULL DEFAULT 1,
     asset_condition ENUM('new','good','fair','poor','damaged'),
     status          ENUM('active','maintenance','disposed','lost') DEFAULT 'active',
     is_deleted      TINYINT(1) DEFAULT 0,
@@ -148,6 +150,7 @@ CREATE TABLE asset_assignments (
     location_id   INT,
     assigned_date DATE,
     assigned_by   VARCHAR(150),
+    quantity      INT NOT NULL DEFAULT 1,
     status        ENUM('active','moved') DEFAULT 'active',
     is_deleted    TINYINT(1) DEFAULT 0,
     FOREIGN KEY (asset_id)      REFERENCES assets(id),
@@ -169,6 +172,7 @@ CREATE TABLE asset_transfer_history (
     to_location      INT,
     transfer_date    DATE,
     transferred_by   VARCHAR(150),
+    quantity         INT NOT NULL DEFAULT 1,
     remarks          TEXT,
     is_deleted       TINYINT(1) DEFAULT 0,
     FOREIGN KEY (asset_id)         REFERENCES assets(id),

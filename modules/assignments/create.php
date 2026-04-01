@@ -36,14 +36,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $location_id = !empty($_POST['location_id']) ? (int)$_POST['location_id'] : null;
     $assigned_date = trim($_POST['assigned_date'] ?? '');
     $assigned_by = trim($_POST['assigned_by'] ?? '');
+    $quantity = max(1, (int)($_POST['quantity'] ?? 1));
     $status = $_POST['status'] ?? 'active';
 
     if (!$asset_id) {
         $_SESSION['error_message'] = 'Please select an asset.';
     } else {
         try {
-            $stmt = $pdo->prepare("INSERT INTO asset_assignments (asset_id, floor_id, department_id, location_id, assigned_date, assigned_by, status) VALUES (?, ?, ?, ?, ?, ?, ?)");
-            $stmt->execute([$asset_id, $floor_id, $department_id, $location_id, $assigned_date ?: null, $assigned_by, $status]);
+            $stmt = $pdo->prepare("INSERT INTO asset_assignments (asset_id, floor_id, department_id, location_id, assigned_date, assigned_by, quantity, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt->execute([$asset_id, $floor_id, $department_id, $location_id, $assigned_date ?: null, $assigned_by, $quantity, $status]);
             $_SESSION['success_message'] = 'Assignment created successfully.';
             $newId = (int)$pdo->lastInsertId();
             logActivity($pdo, 'create', 'assignments', $newId, 'Created assignment for asset ID ' . $asset_id);
@@ -135,6 +136,11 @@ require_once __DIR__ . '/../../views/sidebar.php';
                     <div class="mb-3">
                         <label for="assigned_by" class="form-label">Assigned By</label>
                         <input type="text" class="form-control" id="assigned_by" name="assigned_by" value="<?php echo htmlspecialchars($_POST['assigned_by'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="quantity" class="form-label">Quantity</label>
+                        <input type="number" class="form-control" id="quantity" name="quantity" value="<?php echo (int)($_POST['quantity'] ?? 1); ?>" min="1" required>
                     </div>
 
                     <div class="mb-3">

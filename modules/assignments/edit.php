@@ -53,14 +53,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $location_id = !empty($_POST['location_id']) ? (int)$_POST['location_id'] : null;
     $assigned_date = trim($_POST['assigned_date'] ?? '');
     $assigned_by = trim($_POST['assigned_by'] ?? '');
+    $quantity = max(1, (int)($_POST['quantity'] ?? 1));
     $status = $_POST['status'] ?? 'active';
 
     if (!$asset_id) {
         $_SESSION['error_message'] = 'Please select an asset.';
     } else {
         try {
-            $stmt = $pdo->prepare("UPDATE asset_assignments SET asset_id = ?, floor_id = ?, department_id = ?, location_id = ?, assigned_date = ?, assigned_by = ?, status = ? WHERE id = ?");
-            $stmt->execute([$asset_id, $floor_id, $department_id, $location_id, $assigned_date ?: null, $assigned_by, $status, $id]);
+            $stmt = $pdo->prepare("UPDATE asset_assignments SET asset_id = ?, floor_id = ?, department_id = ?, location_id = ?, assigned_date = ?, assigned_by = ?, quantity = ?, status = ? WHERE id = ?");
+            $stmt->execute([$asset_id, $floor_id, $department_id, $location_id, $assigned_date ?: null, $assigned_by, $quantity, $status, $id]);
             $_SESSION['success_message'] = 'Assignment updated successfully.';
             logActivity($pdo, 'update', 'assignments', $id, 'Updated assignment ID ' . $id);
             header('Location: index.php');
@@ -76,6 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $assignment['location_id'] = $location_id;
     $assignment['assigned_date'] = $assigned_date;
     $assignment['assigned_by'] = $assigned_by;
+    $assignment['quantity'] = $quantity;
     $assignment['status'] = $status;
 }
 
@@ -159,6 +161,11 @@ require_once __DIR__ . '/../../views/sidebar.php';
                     <div class="mb-3">
                         <label for="assigned_by" class="form-label">Assigned By</label>
                         <input type="text" class="form-control" id="assigned_by" name="assigned_by" value="<?php echo htmlspecialchars($assignment['assigned_by'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="quantity" class="form-label">Quantity</label>
+                        <input type="number" class="form-control" id="quantity" name="quantity" value="<?php echo (int)($assignment['quantity'] ?? 1); ?>" min="1" required>
                     </div>
 
                     <div class="mb-3">

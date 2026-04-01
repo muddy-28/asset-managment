@@ -113,6 +113,8 @@ CREATE TABLE assets (
 
     warranty_expiry DATE,
 
+    quantity INT NOT NULL DEFAULT 1,
+
     asset_condition ENUM('new','good','fair','poor','damaged'),
     status ENUM('active','maintenance','disposed','lost') DEFAULT 'active',
 
@@ -138,6 +140,7 @@ CREATE TABLE asset_assignments (
 
     assigned_date DATE,
     assigned_by VARCHAR(150),
+    quantity INT NOT NULL DEFAULT 1,
 
     status ENUM('active','moved') DEFAULT 'active',
 
@@ -165,6 +168,7 @@ CREATE TABLE asset_transfer_history (
 
     transfer_date DATE,
     transferred_by VARCHAR(150),
+    quantity INT NOT NULL DEFAULT 1,
     remarks TEXT,
 
     is_deleted TINYINT(1) DEFAULT 0,

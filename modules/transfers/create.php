@@ -33,6 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $to_location = !empty($_POST['to_location']) ? (int)$_POST['to_location'] : null;
     $transfer_date = trim($_POST['transfer_date'] ?? '');
     $transferred_by = trim($_POST['transferred_by'] ?? '');
+    $quantity = max(1, (int)($_POST['quantity'] ?? 1));
     $remarks = trim($_POST['remarks'] ?? '');
 
     if (!$asset_id) {
@@ -42,8 +43,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $pdo->beginTransaction();
 
             // 1. Insert into asset_transfer_history
-            $stmt = $pdo->prepare("INSERT INTO asset_transfer_history (asset_id, from_department, to_department, from_location, to_location, transfer_date, transferred_by, remarks) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt->execute([$asset_id, $from_department, $to_department, $from_location, $to_location, $transfer_date !== '' ? $transfer_date : null, $transferred_by, $remarks]);
+            $stmt = $pdo->prepare("INSERT INTO asset_transfer_history (asset_id, from_department, to_department, from_location, to_location, transfer_date, transferred_by, quantity, remarks) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt->execute([$asset_id, $from_department, $to_department, $from_location, $to_location, $transfer_date !== '' ? $transfer_date : null, $transferred_by, $quantity, $remarks]);
             $newId = (int)$pdo->lastInsertId();
 
             // 2. Mark existing active assignment for this asset as 'moved'
@@ -70,8 +71,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             // 4. Insert new active assignment with destination info
-            $stmt = $pdo->prepare("INSERT INTO asset_assignments (asset_id, floor_id, department_id, location_id, assigned_date, assigned_by, status) VALUES (?, ?, ?, ?, ?, ?, 'active')");
-            $stmt->execute([$asset_id, $floor_id, $to_department, $to_location, $transfer_date ?: null, $transferred_by]);
+            $stmt = $pdo->prepare("INSERT INTO asset_assignments (asset_id, floor_id, department_id, location_id, assigned_date, assigned_by, quantity, status) VALUES (?, ?, ?, ?, ?, ?, ?, 'active')");
+            $stmt->execute([$asset_id, $floor_id, $to_department, $to_location, $transfer_date ?: null, $transferred_by, $quantity]);
 
             $pdo->commit();
             $_SESSION['success_message'] = 'Transfer recorded successfully.';
@@ -179,6 +180,11 @@ require_once __DIR__ . '/../../views/sidebar.php';
                     <div class="mb-3">
                         <label for="transferred_by" class="form-label">Transferred By</label>
                         <input type="text" class="form-control" id="transferred_by" name="transferred_by" value="<?php echo htmlspecialchars($_POST['transferred_by'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="quantity" class="form-label">Quantity</label>
+                        <input type="number" class="form-control" id="quantity" name="quantity" value="<?php echo (int)($_POST['quantity'] ?? 1); ?>" min="1" required>
                     </div>
 
                     <div class="mb-3">

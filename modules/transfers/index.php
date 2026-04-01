@@ -19,6 +19,7 @@ $stmt = $pdo->prepare("
     LEFT JOIN departments td ON t.to_department = td.id
     LEFT JOIN locations fl ON t.from_location = fl.id
     LEFT JOIN locations tl ON t.to_location = tl.id
+    WHERE t.is_deleted = 0
     ORDER BY t.id DESC
 ");
 $stmt->execute();
@@ -63,6 +64,7 @@ require_once __DIR__ . '/../../views/sidebar.php';
                             <th>To Location</th>
                             <th>Transfer Date</th>
                             <th>Transferred By</th>
+                            <th>Quantity</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -77,6 +79,7 @@ require_once __DIR__ . '/../../views/sidebar.php';
                                 <td><?php echo htmlspecialchars($row['to_location_name'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
                                 <td><?php echo htmlspecialchars($row['transfer_date'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
                                 <td><?php echo htmlspecialchars($row['transferred_by'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
+                                <td><?php echo (int)($row['quantity'] ?? 1); ?></td>
                                 <td>
                                     <span class="text-muted"><i class="fas fa-eye"></i> View</span>
                                 </td>

@@ -60,6 +60,7 @@ require_once __DIR__ . '/../../views/sidebar.php';
                                 <th>Asset Tag</th>
                                 <th>Asset Name</th>
                                 <th>Category</th>
+                                <th>Quantity</th>
                                 <th>Vendor</th>
                                 <th>Status</th>
                                 <th>Condition</th>
@@ -78,6 +79,7 @@ require_once __DIR__ . '/../../views/sidebar.php';
                                             <br><small class="text-muted"><?php echo htmlspecialchars($asset['subcategory_name'], ENT_QUOTES, 'UTF-8'); ?></small>
                                         <?php endif; ?>
                                     </td>
+                                    <td><?php echo (int)($asset['quantity'] ?? 1); ?></td>
                                     <td><?php echo htmlspecialchars($asset['vendor_name'] ?? 'N/A', ENT_QUOTES, 'UTF-8'); ?></td>
                                     <td>
                                         <?php
