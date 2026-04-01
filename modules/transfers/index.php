@@ -19,6 +19,7 @@ $stmt = $pdo->prepare("
     LEFT JOIN departments td ON t.to_department = td.id
     LEFT JOIN locations fl ON t.from_location = fl.id
     LEFT JOIN locations tl ON t.to_location = tl.id
+    WHERE t.is_deleted = 0
     ORDER BY t.id DESC
 ");
 $stmt->execute();
