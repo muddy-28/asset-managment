@@ -28,7 +28,10 @@ require_once __DIR__ . '/../../views/sidebar.php';
         <div class="row mb-4">
             <div class="col-12 d-flex justify-content-between align-items-center">
                 <h2 class="mb-0"><i class="fas fa-clipboard-list me-2"></i>Asset Assignments</h2>
-                <a href="create.php" class="btn btn-primary"><i class="fas fa-plus me-1"></i>Add Assignment</a>
+                <div>
+                    <a href="export_excel.php" class="btn btn-success me-2"><i class="fas fa-file-excel me-1"></i>Export to Excel</a>
+                    <a href="create.php" class="btn btn-primary"><i class="fas fa-plus me-1"></i>Add Assignment</a>
+                </div>
             </div>
         </div>
 
