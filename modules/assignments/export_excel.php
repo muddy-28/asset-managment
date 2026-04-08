@@ -208,6 +208,7 @@ $tmpFile = tempnam(sys_get_temp_dir(), 'xlsx_');
 
 $zip = new ZipArchive();
 if ($zip->open($tmpFile, ZipArchive::CREATE | ZipArchive::OVERWRITE) !== true) {
+    unlink($tmpFile);
     http_response_code(500);
     die('Unable to create Excel file.');
 }
@@ -227,7 +228,7 @@ $zip->close();
 $filename = 'Assigned_Assets_' . date('Y-m-d') . '.xlsx';
 
 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-header('Content-Disposition: attachment; filename="' . $filename . '"');
+header("Content-Disposition: attachment; filename*=UTF-8''" . rawurlencode($filename));
 header('Content-Length: ' . filesize($tmpFile));
 header('Cache-Control: max-age=0');
 
