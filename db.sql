@@ -327,6 +327,19 @@ CREATE TABLE asset_disposal (
 );
 
 -- =====================================================
+-- SERVICES
+-- =====================================================
+
+CREATE TABLE services (
+    id          INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    title       VARCHAR(255) NOT NULL,
+    description TEXT         NULL,
+    img         VARCHAR(255) NULL,
+    is_deleted  TINYINT(1)   NOT NULL DEFAULT 0,
+    created_at  TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- =====================================================
 -- INDEXES FOR PERFORMANCE
 -- =====================================================
 
