@@ -375,3 +375,16 @@ CREATE TABLE activity_logs (
 CREATE INDEX idx_activity_logs_user    ON activity_logs (user_id);
 CREATE INDEX idx_activity_logs_module  ON activity_logs (module);
 CREATE INDEX idx_activity_logs_created ON activity_logs (created_at);
+
+-- =====================================================
+-- SERVICES
+-- =====================================================
+
+CREATE TABLE services (
+    id          INT AUTO_INCREMENT PRIMARY KEY,
+    title       VARCHAR(255) NOT NULL,
+    description TEXT,
+    img         VARCHAR(500),
+    is_deleted  TINYINT(1)   DEFAULT 0,
+    created_at  TIMESTAMP    DEFAULT CURRENT_TIMESTAMP
+);
