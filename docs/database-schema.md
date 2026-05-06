@@ -1,6 +1,6 @@
 # Database Schema Reference
 
-This document describes all 15 tables in the `hospital_assets` database, their columns, data types, and relationships.
+This document describes all 16 tables in the `hospital_assets` database, their columns, data types, and relationships.
 
 ---
 
@@ -14,15 +14,16 @@ This document describes all 15 tables in the `hospital_assets` database, their c
 6. [asset_categories](#6-asset_categories)
 7. [asset_subcategories](#7-asset_subcategories)
 8. [vendors](#8-vendors)
-9. [assets](#9-assets)
-10. [asset_assignments](#10-asset_assignments)
-11. [asset_transfer_history](#11-asset_transfer_history)
-12. [asset_maintenance_schedule](#12-asset_maintenance_schedule)
-13. [asset_maintenance_logs](#13-asset_maintenance_logs)
-14. [asset_calibration](#14-asset_calibration)
-15. [maintenance_reminders](#15-maintenance_reminders)
-16. [asset_disposal](#16-asset_disposal)
-17. [Indexes](#17-indexes)
+9. [services](#9-services)
+10. [assets](#10-assets)
+11. [asset_assignments](#11-asset_assignments)
+12. [asset_transfer_history](#12-asset_transfer_history)
+13. [asset_maintenance_schedule](#13-asset_maintenance_schedule)
+14. [asset_maintenance_logs](#14-asset_maintenance_logs)
+15. [asset_calibration](#15-asset_calibration)
+16. [maintenance_reminders](#16-maintenance_reminders)
+17. [asset_disposal](#17-asset_disposal)
+18. [Indexes](#18-indexes)
 
 ---
 
@@ -155,7 +156,22 @@ Supplier and service provider information.
 
 ---
 
-## 9. assets
+## 9. services
+
+Hospital service catalogue entries.
+
+| Column | Type | Nullable | Default | Notes |
+|--------|------|----------|---------|-------|
+| `id` | INT UNSIGNED | No | AUTO_INCREMENT | Primary key |
+| `title` | VARCHAR(255) | No | — | Short name of the service |
+| `description` | TEXT | Yes | NULL | Detailed description |
+| `img` | VARCHAR(255) | Yes | NULL | Relative path to uploaded image |
+| `is_deleted` | TINYINT(1) | No | 0 | Soft-delete flag |
+| `created_at` | TIMESTAMP | No | CURRENT_TIMESTAMP | |
+
+---
+
+## 10. assets
 
 Core asset records — the heart of the system.
 
@@ -179,7 +195,7 @@ Core asset records — the heart of the system.
 
 ---
 
-## 10. asset_assignments
+## 11. asset_assignments
 
 Links an asset to a specific floor, department, and location.
 
@@ -196,7 +212,7 @@ Links an asset to a specific floor, department, and location.
 
 ---
 
-## 11. asset_transfer_history
+## 12. asset_transfer_history
 
 Audit trail of every asset movement between departments/locations.
 
@@ -214,7 +230,7 @@ Audit trail of every asset movement between departments/locations.
 
 ---
 
-## 12. asset_maintenance_schedule
+## 13. asset_maintenance_schedule
 
 Defines recurring maintenance plans for assets.
 
@@ -235,7 +251,7 @@ Defines recurring maintenance plans for assets.
 
 ---
 
-## 13. asset_maintenance_logs
+## 14. asset_maintenance_logs
 
 Records each individual maintenance event.
 
@@ -260,7 +276,7 @@ Records each individual maintenance event.
 
 ---
 
-## 14. asset_calibration
+## 15. asset_calibration
 
 Tracks calibration events for regulated assets.
 
@@ -277,7 +293,7 @@ Tracks calibration events for regulated assets.
 
 ---
 
-## 15. maintenance_reminders
+## 16. maintenance_reminders
 
 System-generated or manually created reminders linked to a maintenance schedule.
 
@@ -293,7 +309,7 @@ System-generated or manually created reminders linked to a maintenance schedule.
 
 ---
 
-## 16. asset_disposal
+## 17. asset_disposal
 
 Records the end-of-life disposal of an asset.
 
@@ -309,7 +325,7 @@ Records the end-of-life disposal of an asset.
 
 ---
 
-## 17. Indexes
+## 18. Indexes
 
 Performance indexes created on the most frequently queried columns:
 

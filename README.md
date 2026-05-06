@@ -35,6 +35,7 @@ Full wiki documentation is available in the [`docs/`](docs/) directory:
 - **Department Management** — CRUD for departments linked to floors
 - **Location/Room Management** — CRUD for rooms linked to floors and departments
 - **Vendor Management** — CRUD for suppliers/vendors
+- **Services Management** — CRUD for hospital services with title, description, and image
 - **Category & Subcategory Management** — Organize assets by category
 - **Asset Assignment** — Assign assets to floors, departments, and rooms
 - **Asset Transfer** — Move assets between departments/locations with history tracking
@@ -139,6 +140,7 @@ Full wiki documentation is available in the [`docs/`](docs/) directory:
 │   ├── categories/              # Category CRUD
 │   ├── subcategories/           # Subcategory CRUD
 │   ├── vendors/                 # Vendor CRUD
+│   ├── services/                # Services CRUD (title, description, image)
 │   ├── floors/                  # Floor CRUD
 │   ├── departments/             # Department CRUD
 │   ├── locations/               # Location/Room CRUD
@@ -176,7 +178,7 @@ Full wiki documentation is available in the [`docs/`](docs/) directory:
 
 ## Database Schema
 
-The system uses 15 tables:
+The system uses 16 tables:
 
 - `users` — User authentication and roles
 - `floors` — Hospital floors/buildings
@@ -185,6 +187,7 @@ The system uses 15 tables:
 - `asset_categories` — Asset category classification
 - `asset_subcategories` — Asset subcategory classification
 - `vendors` — Supplier/vendor information
+- `services` — Hospital services with title, description, and image
 - `assets` — Core asset records
 - `asset_assignments` — Asset-to-location assignments
 - `asset_transfer_history` — Asset transfer audit trail

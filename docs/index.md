@@ -12,6 +12,7 @@ Welcome to the official documentation for the **Hospital Asset Management System
 | [Configuration Guide](configuration.md) | Database connection, environment settings, and customization options |
 | [User Guide](user-guide.md) | Step-by-step guide for logging in, navigating the dashboard, and daily use |
 | [Assets Module](modules/assets.md) | Managing assets: create, view, edit, assign, transfer, print barcode |
+| [Services Module](modules/services.md) | Managing hospital services: title, description, and image |
 | [Departments & Locations](modules/departments-and-locations.md) | Managing floors, departments, and rooms/locations |
 | [Maintenance Guide](modules/maintenance.md) | Maintenance schedules, logs, calibration, and reminders |
 | [Users & Roles](modules/users-and-roles.md) | User management, roles, and permissions |
@@ -38,6 +39,7 @@ The Hospital Asset Management System helps healthcare facilities:
 |---------|-------------|
 | 📊 **Dashboard** | At-a-glance statistics, asset-status chart, and category distribution chart |
 | 🏷️ **Asset Management** | Full lifecycle tracking from acquisition to disposal, including barcode labels |
+| 🩺 **Services Management** | Catalogue of hospital services with title, description, and image |
 | 🏢 **Location Hierarchy** | Floors → Departments → Rooms for precise asset tracking |
 | 🔄 **Assignments & Transfers** | Assign assets to a specific room; move them with a full transfer history |
 | 🔧 **Maintenance Scheduling** | Create recurring maintenance schedules; get 7-day advance reminders |

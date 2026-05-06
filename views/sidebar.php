@@ -53,6 +53,11 @@ function isActive(string $path): string
                 <i class="fas fa-truck"></i><span>Vendors</span>
             </a>
         </li>
+        <li class="sidebar-item <?php echo isActive('/modules/services/'); ?>">
+            <a href="<?php echo BASE_URL; ?>/modules/services/index.php" class="sidebar-link">
+                <i class="fas fa-concierge-bell"></i><span>Services</span>
+            </a>
+        </li>
 
         <li class="sidebar-heading">Locations</li>
 
